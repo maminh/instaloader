@@ -49,5 +49,9 @@ class ConnectionException(InstaloaderException):
     pass
 
 
+class PostChangedException(InstaloaderException):
+    pass
+
+
 class TooManyRequestsException(ConnectionException):
     pass

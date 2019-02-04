@@ -939,8 +939,15 @@ class Instaloader:
                             self.context.log('<skipped>')
                             continue
                         with self.context.error_catcher("Download {} of {}".format(post, profile_name)):
-                            downloaded = self.download_post(post, target=profile_name)
-                            if fast_update and not downloaded:
+                            post_changed = False
+                            while True:
+                                try:
+                                    downloaded = self.download_post(post, target=profile_name)
+                                    break
+                                except PostChangedException:
+                                    post_changed = True
+                                    continue
+                            if fast_update and not downloaded and not post_changed:
                                 break
 
         if stories and profiles:
